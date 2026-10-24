@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" class="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ערכת הכפתור האחד | Single Button Kit</title>
+<meta name="description" content="בונים ערכת ESP32 עם מסך, כפתור וזמזם, ומתכנתים אותה עם בינה מלאכותית שמלווה אתכם צעד אחר צעד. Build an ESP32 kit and program it with an AI guide.">
+<style>
+  :root {
+    --bg: #f7f8fb;
+    --panel: #ffffff;
+    --ink: #17202e;
+    --muted: #556173;
+    --line: #dfe4ec;
+    --accent: #0a7f8f;
+    --accent-ink: #ffffff;
+    --accent-soft: #e2f4f6;
+    --warm: #b4580c;
+    --warm-soft: #fdf0e3;
+    --code-bg: #101722;
+    --code-ink: #e6edf5;
+    --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 4px 16px rgba(16, 24, 40, .06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e131b;
+      --panel: #161d28;
+      --ink: #e9eef5;
+      --muted: #a3afc0;
+      --line: #273142;
+      --accent: #4cc9d9;
+      --accent-ink: #062228;
+      --accent-soft: #11303a;
+      --warm: #f2a65a;
+      --warm-soft: #33251a;
+      --code-bg: #0a0f16;
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e131b; --panel: #161d28; --ink: #e9eef5; --muted: #a3afc0; --line: #273142;
+    --accent: #4cc9d9; --accent-ink: #062228; --accent-soft: #11303a; --warm: #f2a65a; --warm-soft: #33251a;
+    --code-bg: #0a0f16; --shadow: none;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", "Heebo", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+  .he [lang="en"], .en [lang="he"] { display: none !important; }
+  a { color: var(--accent); }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  /* top bar */
+  .top {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 56px; }
+  .brand { font-weight: 700; display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+  .brand-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); box-shadow: inset 0 -3px 0 rgba(0,0,0,.2); }
+  .lang-switch { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .lang-switch button {
+    border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 14px;
+    padding: 4px 14px; cursor: pointer; min-height: 32px;
+  }
+  .lang-switch button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+
+  /* hero */
+  .hero { padding: 48px 0 32px; }
+  .hero .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 40px; align-items: center; }
+  .eyebrow { color: var(--accent); font-weight: 600; font-size: 15px; letter-spacing: .02em; }
+  h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.2; margin: 8px 0 16px; }
+  .lead { color: var(--muted); font-size: 19px; max-width: 34em; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600;
+    border-radius: 10px; padding: 11px 20px; border: 1px solid var(--accent); min-height: 44px;
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); }
+  .btn.ghost { color: var(--accent); background: transparent; }
+  .hero-img { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); aspect-ratio: 534 / 318; }
+  .hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .updated { display: inline-flex; gap: 8px; margin-top: 20px; font-size: 14px; color: var(--muted); text-decoration: none; }
+  .updated b { color: var(--ink); font-weight: 600; }
+
+  /* sections */
+  section { padding: 44px 0; }
+  section + section { border-top: 1px solid var(--line); }
+  h2 { font-size: clamp(24px, 3.4vw, 32px); line-height: 1.3; margin-bottom: 8px; }
+  .sub { color: var(--muted); max-width: 44em; margin-bottom: 24px; }
+  h3 { font-size: 19px; margin-bottom: 6px; }
+  .grid { display: grid; gap: 16px; }
+  .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); }
+  .card p { color: var(--muted); font-size: 16px; }
+  .icon { font-size: 26px; line-height: 1; margin-bottom: 10px; }
+
+  /* steps */
+  .step { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 16px; margin-bottom: 28px; }
+  .num {
+    width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 20px;
+  }
+  .step p, .step li { color: var(--muted); }
+  .step ul { padding-inline-start: 20px; margin-top: 6px; }
+  .check { font-size: 15px; margin-top: 8px; color: var(--ink) !important; }
+  .check::before { content: "✓ "; color: var(--accent); font-weight: 700; }
+
+  .video { position: relative; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: #000; }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .wiring { border-radius: 12px; border: 1px solid var(--line); background: #fff; padding: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  th, td { text-align: start; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; font-size: 14px; }
+  td code, .pin { font-family: Consolas, "Cascadia Mono", monospace; font-weight: 600; color: var(--accent); }
+
+  pre {
+    direction: ltr; text-align: left; background: var(--code-bg); color: var(--code-ink);
+    border-radius: 10px; padding: 16px 18px; overflow-x: auto; font-size: 15px; line-height: 1.6;
+    font-family: Consolas, "Cascadia Mono", monospace; position: relative; margin-top: 10px;
+  }
+  .copy {
+    position: absolute; top: 8px; right: 8px; font: inherit; font-size: 13px; cursor: pointer;
+    background: rgba(255,255,255,.1); color: var(--code-ink); border: 1px solid rgba(255,255,255,.2);
+    border-radius: 6px; padding: 2px 10px; min-height: 30px;
+  }
+  .say {
+    margin-top: 10px; background: var(--accent-soft); border-inline-start: 4px solid var(--accent);
+    border-radius: 8px; padding: 14px 18px; font-size: 22px; font-weight: 700; color: var(--ink);
+  }
+  .note { align-self: start; background: var(--warm-soft); border-radius: 10px; padding: 14px 18px; color: var(--ink); font-size: 16px; }
+  .note b { color: var(--warm); }
+
+  .who td:first-child { width: 50%; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: 15px; }
+
+  footer { padding: 32px 0 48px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
+
+  @media (max-width: 860px) {
+    .hero .wrap, .g2 { grid-template-columns: minmax(0, 1fr); }
+    .g4, .g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 520px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 16px; }
+    .g4, .g3 { grid-template-columns: minmax(0, 1fr); }
+    .step { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; }
+    .num { width: 34px; height: 34px; font-size: 17px; }
+    .say { font-size: 19px; }
+    .brand-name { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="brand-dot" aria-hidden="true"></span>
+      <span class="brand-name"><span lang="he">ערכת הכפתור האחד</span><span lang="en">Single Button Kit</span></span></a>
+    <div class="lang-switch" role="group" aria-label="Language / שפה">
+      <button type="button" data-set-lang="he" aria-pressed="true">עברית</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">English</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><span lang="he">ESP32 · מסך · כפתור אחד · זמזם · בינה מלאכותית</span><span lang="en">ESP32 · screen · one button · buzzer · AI</span></div>
+      <h1><span lang="he">בונים ערכה בידיים, ומתכנתים אותה עם בינה מלאכותית לצידכם.</span><span lang="en">Build a kit with your hands, then program it with an AI by your side.</span></h1>
+      <p class="lead"><span lang="he">מחברים מחשב קטן, מסך, כפתור וזמזם על לוח ניסויים, ומשחק Flappy עולה מיד. משם, צ'אט בתוך VS Code מתקין הכול, בודק את הערכה, ובונה איתכם כל משחק או רעיון שתדמיינו, ומסביר תוך כדי.</span><span lang="en">Wire a tiny computer, a screen, a button and a buzzer on a breadboard, and a Flappy game starts right away. From there, a chat inside VS Code installs everything, checks your kit, and builds any game or idea you imagine with you, explaining as it goes.</span></p>
+      <div class="cta">
+        <a class="btn primary" href="#start"><span lang="he">מתחילים</span><span lang="en">Get started</span></a>
+        <a class="btn ghost" href="#build"><span lang="he">סרטון ההרכבה</span><span lang="en">Assembly video</span></a>
+      </div>
+      <!-- last-updated:start --><a class="updated" href="https://github.com/avisalmon/SingleButtonKitBKM/blob/main/docs/lessons_log.md"><span lang="he"><b>עודכן לאחרונה 24 באוקטובר 2026</b> · 5 לקחים חדשים · מה חדש &larr;</span><span lang="en"><b>Last updated 24 October 2026</b> · 5 new lessons · See what's new &rarr;</span></a><!-- last-updated:end -->
+    </div>
+    <div class="hero-img"><img src="assets/kit.png" alt="The assembled kit running Flappy / הערכה המורכבת עם משחק Flappy" width="534" height="358"></div>
+  </div>
+</div>
+
+<section id="kit">
+  <div class="wrap">
+    <h2><span lang="he">מה יש בערכה</span><span lang="en">What's in the kit</span></h2>
+    <p class="sub"><span lang="he">ארבעה חלקים, בלי הלחמה. מספיק כדי לבנות משחקים, מוזיקה, שעונים וגאדג'טים מחוברים לאינטרנט.</span><span lang="en">Four parts, no soldering. Enough for games, music, clocks and internet gadgets.</span></p>
+    <div class="grid g4">
+      <div class="card"><div class="icon" aria-hidden="true">🧠</div><h3><span lang="he">ESP32</span><span lang="en">ESP32</span></h3><p><span lang="he">מחשב זעיר עם שני מעבדים, WiFi ו-Bluetooth. מתחבר ב-USB.</span><span lang="en">A tiny computer with two cores, WiFi and Bluetooth. Connects over USB.</span></p></div>
+      <div class="card"><div class="icon" aria-hidden="true">🖥️</div><h3><span lang="he">מסך OLED</span><span lang="en">OLED screen</span></h3><p><span lang="he">128 על 64 נקודות לבנות. מספיק לציורים, טקסט ואנימציה.</span><span lang="en">128 by 64 white dots. Enough for drawings, text and animation.</span></p></div>
+      <div class="card"><div class="icon" aria-hidden="true">🔘</div><h3><span lang="he">כפתור אחד</span><span lang="en">One button</span></h3><p><span lang="he">לחיצה, החזקה, לחיצה כפולה. האתגר: לעצב משחק עם כפתור אחד.</span><span lang="en">Tap, hold, double-tap. The challenge: design a game for one button.</span></p></div>
+      <div class="card"><div class="icon" aria-hidden="true">🔊</div><h3><span lang="he">זמזם</span><span lang="en">Buzzer</span></h3><p><span lang="he">צלילים, אפקטים ומנגינות.</span><span lang="en">Beeps, sound effects and tunes.</span></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="build">
+  <div class="wrap">
+    <h2><span lang="he">שלב 1: בונים את הערכה</span><span lang="en">Step 1: build the kit</span></h2>
+    <p class="sub"><span lang="he">עקבו אחרי הסרטון והחיבורים. כשמחברים ל-USB, משחק Flappy עולה. אם הציפור עפה כשלוחצים, הכול מחובר נכון.</span><span lang="en">Follow the video and the wiring. Plug it into USB and Flappy starts. If the bird flies when you press, everything is wired right.</span></p>
+    <div class="grid g2">
+      <div class="video">
+        <iframe src="https://www.youtube-nocookie.com/embed/Jap-4eeCaNw" title="Building the Flappy micro arcade / בניית מיקרו ארקייד פלאפי" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div>
+        <img class="wiring" src="assets/wiring.png" alt="Wiring diagram: ESP32, OLED, button and buzzer / תרשים חיבורים" width="880" height="660" loading="lazy">
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:20px">
+      <div class="card">
+        <h3><span lang="he">החיבורים</span><span lang="en">The wiring</span></h3>
+        <table id="pins">
+          <thead><tr><th><span lang="he">מ...</span><span lang="en">From</span></th><th><span lang="he">לפין ב-ESP32</span><span lang="en">To ESP32 pin</span></th></tr></thead>
+          <tbody>
+            <tr><td><span lang="he">מסך GND</span><span lang="en">Screen GND</span></td><td><code>GND</code></td></tr>
+            <tr><td><span lang="he">מסך VCC</span><span lang="en">Screen VCC</span></td><td><code>3V3</code></td></tr>
+            <tr><td><span lang="he">מסך SCL</span><span lang="en">Screen SCL</span></td><td><code>22</code></td></tr>
+            <tr><td><span lang="he">מסך SDA</span><span lang="en">Screen SDA</span></td><td><code>21</code></td></tr>
+            <tr><td><span lang="he">כפתור, רגל אחת</span><span lang="en">Button, one leg</span></td><td><code>4</code></td></tr>
+            <tr><td><span lang="he">כפתור, הרגל שמנגד</span><span lang="en">Button, the leg across</span></td><td><code>GND</code></td></tr>
+            <tr><td><span lang="he">זמזם +</span><span lang="en">Buzzer +</span></td><td><code>23</code></td></tr>
+            <tr><td><span lang="he">זמזם, הרגל השנייה</span><span lang="en">Buzzer, other leg</span></td><td><code>GND</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <p><b><span lang="he">בטיחות:</span><span lang="en">Safety:</span></b>
+        <span lang="he">מנתקים את ה-USB לפני שמזיזים חוט. המסך מתחבר ל-3V3, אף פעם לא ל-5V. שום דבר לא אמור להתחמם: אם משהו מתחמם, מנתקים ובודקים את החיבורים.</span><span lang="en">Unplug USB before moving any wire. The screen goes to 3V3, never 5V. Nothing should get warm: if something does, unplug and check the wiring.</span></p>
+        <p style="margin-top:10px"><span lang="he">כבל USB חייב להעביר נתונים. יש כבלים שרק מטעינים, ונראים בדיוק אותו דבר.</span><span lang="en">The USB cable must carry data. Some cables only charge, and look exactly the same.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <h2><span lang="he">שלב 2: מכינים את המחשב (פעם אחת, כ-20 דקות)</span><span lang="en">Step 2: get your computer ready (once, about 20 minutes)</span></h2>
+    <p class="sub"><span lang="he">רק את הדברים האלה עושים לבד. מכאן והלאה הצ'אט עושה את העבודה ומסביר לכם מה ללחוץ. Windows מומלץ.</span><span lang="en">These are the only things you do yourself. From then on the chat does the work and tells you what to click. Windows recommended.</span></p>
+
+    <div class="step"><div class="num">1</div><div>
+      <h3><span lang="he">התקינו את VS Code</span><span lang="en">Install VS Code</span></h3>
+      <p><span lang="he">עורך הקוד. מורידים מ-</span><span lang="en">The code editor. Download from </span><a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a><span lang="he"> ומתקינים עם ברירות המחדל.</span><span lang="en"> and install with the defaults.</span></p>
+    </div></div>
+
+    <div class="step"><div class="num">2</div><div>
+      <h3><span lang="he">הוסיפו צ'אט בינה מלאכותית (אחד מהשניים)</span><span lang="en">Add an AI chat (one of the two)</span></h3>
+      <ul>
+        <li><span lang="he"><b>Claude Code</b>: ב-VS Code, Extensions (אייקון ארבעת הריבועים) ← מחפשים "Claude Code" ← Install ← נכנסים עם חשבון Claude.</span><span lang="en"><b>Claude Code</b>: in VS Code, Extensions (the four-squares icon) → search "Claude Code" → Install → sign in with a Claude account.</span></li>
+        <li><span lang="he"><b>GitHub Copilot</b>: צריך חשבון <a href="https://github.com/signup" target="_blank" rel="noopener">GitHub</a> חינמי. נכנסים ל-GitHub ב-VS Code, פותחים את הצ'אט ובוחרים מצב <b>Agent</b>.</span><span lang="en"><b>GitHub Copilot</b>: needs a free <a href="https://github.com/signup" target="_blank" rel="noopener">GitHub</a> account. Sign in to GitHub in VS Code, open the chat and choose <b>Agent</b> mode.</span></li>
+      </ul>
+      <p class="check"><span lang="he">עובד כשכותבים hello והצ'אט עונה.</span><span lang="en">It works when you type hello and the chat answers.</span></p>
+    </div></div>
+
+    <div class="step"><div class="num">3</div><div>
+      <h3><span lang="he">התקינו את Git</span><span lang="en">Install Git</span></h3>
+      <p><span lang="he">הכלי שמעתיק את הפרויקט למחשב. מורידים מ-</span><span lang="en">The tool that copies the project to your computer. Download from </span><a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git-scm.com</a><span lang="he">, מתקינים עם ברירות המחדל, וסוגרים ופותחים מחדש את VS Code.</span><span lang="en">, install with the defaults, then close and reopen VS Code.</span></p>
+    </div></div>
+
+    <div class="step"><div class="num">4</div><div>
+      <h3><span lang="he">העתיקו את הפרויקט ופתחו אותו</span><span lang="en">Copy the project and open it</span></h3>
+      <p><span lang="he">ב-VS Code: <b>Terminal ← New Terminal</b>. מקלידים כל שורה ולוחצים Enter:</span><span lang="en">In VS Code: <b>Terminal → New Terminal</b>. Type each line and press Enter:</span></p>
+<pre><button class="copy" type="button">Copy</button><code>mkdir C:\kit
+cd C:\kit
+git clone https://github.com/avisalmon/SingleButtonKitBKM.git
+code SingleButtonKitBKM</code></pre>
+      <p class="check"><span lang="he">נפתח חלון חדש של VS Code. לוחצים "Yes, I trust the authors".</span><span lang="en">A new VS Code window opens. Click "Yes, I trust the authors".</span></p>
+    </div></div>
+
+    <div class="step"><div class="num">5</div><div>
+      <h3><span lang="he">פתחו את הצ'אט בחלון החדש וכתבו:</span><span lang="en">Open the chat in the new window and type:</span></h3>
+      <div class="say"><span lang="he">תגיד לי מה לעשות</span><span lang="en">Tell me what to do</span></div>
+      <p style="margin-top:10px"><span lang="he">זהו. מכאן הצ'אט מוביל: מתקין Python והכלים, מוצא את הערכה, בודק את המסך, הכפתור והזמזם, ובונה איתכם את התוכנית הראשונה. חוזרים מחר? כותבים את אותו משפט, והוא ממשיך מאיפה שעצרתם.</span><span lang="en">That's it. From here the chat leads: it installs Python and the tools, finds the kit, checks the screen, button and buzzer, and builds your first program with you. Back tomorrow? Type the same sentence and it continues where you stopped.</span></p>
+    </div></div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="wrap">
+    <h2><span lang="he">מי עושה מה</span><span lang="en">Who does what</span></h2>
+    <p class="sub"><span lang="he">אתם מחליטים מה לבנות. הצ'אט עושה את השאר, ומסביר למה.</span><span lang="en">You decide what to build. The chat does the rest, and explains why.</span></p>
+    <div class="card">
+      <table class="who">
+        <thead><tr><th><span lang="he">אתם</span><span lang="en">You</span></th><th><span lang="he">הצ'אט</span><span lang="en">The chat</span></th></tr></thead>
+        <tbody>
+          <tr><td><span lang="he">בונים את הערכה ורואים את Flappy עובד</span><span lang="en">Build the kit and see Flappy run</span></td><td><span lang="he">מתקין Python, PlatformIO ודרייבר USB</span><span lang="en">Installs Python, PlatformIO and the USB driver</span></td></tr>
+          <tr><td><span lang="he">מתקינים VS Code, Git וצ'אט, ומעתיקים את הפרויקט</span><span lang="en">Install VS Code, Git and a chat, and copy the project</span></td><td><span lang="he">מוצא את הערכה ובודק כל חלק בה</span><span lang="en">Finds the kit and checks every part of it</span></td></tr>
+          <tr><td><span lang="he">לוחצים "כן" בהתקנות, לוחצים על הכפתור כשמבקשים</span><span lang="en">Click "Yes" on installers, press the button when asked</span></td><td><span lang="he">כותב את הקוד, מעלה אותו לערכה ומתקן שגיאות</span><span lang="en">Writes the code, uploads it to the kit and fixes errors</span></td></tr>
+          <tr><td><span lang="he">מדמיינים, מחליטים, ומשנים את הקוד בעצמכם</span><span lang="en">Imagine, decide, and change the code yourself</span></td><td><span lang="he">מלמד תוך כדי: מראה איזו שורה עושה מה, ונותן אתגרים קטנים</span><span lang="en">Teaches as it goes: shows which line does what, and gives small challenges</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="ideas">
+  <div class="wrap">
+    <h2><span lang="he">מה אפשר לבנות</span><span lang="en">What you can make</span></h2>
+    <p class="sub"><span lang="he">כמה רעיונות להתחלה. או שתביאו רעיון משלכם.</span><span lang="en">A few ideas to start with. Or bring your own.</span></p>
+    <div class="chips">
+      <span class="chip"><span lang="he">🦖 משחק קפיצות</span><span lang="en">🦖 Jump game</span></span>
+      <span class="chip"><span lang="he">⚡ מבחן זמן תגובה</span><span lang="en">⚡ Reaction timer</span></span>
+      <span class="chip"><span lang="he">🎵 כלי נגינה</span><span lang="en">🎵 Musical instrument</span></span>
+      <span class="chip"><span lang="he">🎲 קובייה</span><span lang="en">🎲 Dice</span></span>
+      <span class="chip"><span lang="he">🚀 חלליות</span><span lang="en">🚀 Space shooter</span></span>
+      <span class="chip"><span lang="he">🐣 חיית מחמד וירטואלית</span><span lang="en">🐣 Virtual pet</span></span>
+      <span class="chip"><span lang="he">⏱️ סטופר</span><span lang="en">⏱️ Stopwatch</span></span>
+      <span class="chip"><span lang="he">🕐 שעון מהאינטרנט</span><span lang="en">🕐 Internet clock</span></span>
+      <span class="chip"><span lang="he">📡 קוד מורס</span><span lang="en">📡 Morse code</span></span>
+      <span class="chip"><span lang="he">🌦️ מזג אוויר</span><span lang="en">🌦️ Weather</span></span>
+    </div>
+  </div>
+</section>
+
+<section id="learn">
+  <div class="wrap">
+    <h2><span lang="he">רוצים לתכנת הכול בעצמכם?</span><span lang="en">Want to program it all yourself?</span></h2>
+    <p class="sub"><span lang="he">לצד הבינה המלאכותית יש קורס מלא לתכנות הערכה הזו ביד, ב-MicroPython: מציור קו ראשון ועד פונג, נחש ו-Space Invaders.</span><span lang="en">Alongside the AI there is a full course for programming this kit by hand, in MicroPython: from a first line on the screen to Pong, Snake and Space Invaders.</span></p>
+    <div class="grid g2">
+      <a class="card" href="https://www.youtube.com/playlist?list=PL0zMMCdiaE56wAuAqmGXPQlCa_2BCWRi6" target="_blank" rel="noopener" style="text-decoration:none">
+        <div class="icon" aria-hidden="true">▶️</div>
+        <h3><span lang="he">רשימת הסרטונים ביוטיוב</span><span lang="en">The YouTube playlist</span></h3>
+        <p><span lang="he">15 שיעורי וידאו, צעד אחר צעד.</span><span lang="en">15 video lessons, step by step (Hebrew).</span></p>
+      </a>
+      <a class="card" href="https://github.com/avisalmon/single_button" target="_blank" rel="noopener" style="text-decoration:none">
+        <div class="icon" aria-hidden="true">📘</div>
+        <h3><span lang="he">הקוד והשיעורים ב-GitHub</span><span lang="en">The code and lessons on GitHub</span></h3>
+        <p><span lang="he">כל קבצי השיעורים, הספריות וההוראות.</span><span lang="en">Every lesson file, the libraries and the instructions.</span></p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="good-to-know">
+  <div class="wrap">
+    <h2><span lang="he">טוב לדעת</span><span lang="en">Good to know</span></h2>
+    <div class="grid g3">
+      <div class="card"><h3><span lang="he">תמיד מתעדכן</span><span lang="en">Always up to date</span></h3><p><span lang="he">המדריך משתפר כל הזמן. בכל פעם שפותחים צ'אט, הוא מושך קודם את הגרסה החדשה. הפרויקטים שלכם נשמרים בתיקייה my_projects, ועדכונים לא נוגעים בה.</span><span lang="en">The guide keeps improving. Every session, the chat first pulls the newest version. Your projects live in my_projects, which updates never touch.</span></p></div>
+      <div class="card"><h3><span lang="he">Flappy תמיד חוזר</span><span lang="en">Flappy always comes back</span></h3><p><span lang="he">העלאת תוכנית מחליפה את המשחק שעל הערכה. כותבים "תחזיר את פלאפי" והוא חוזר, בדיוק כמו שהיה.</span><span lang="en">Uploading a program replaces the game on the kit. Type "Restore Flappy" and it comes back, exactly as it was.</span></p></div>
+      <div class="card"><h3><span lang="he">להורים ולמורים</span><span lang="en">For parents and teachers</span></h3><p><span lang="he">לשירותי בינה מלאכותית יש מגבלות גיל: מבוגר פותח את החשבון ונשאר בסביבה. הצ'אט לא מבקש פרטים אישיים. לסשנים ארוכים בדרך כלל צריך מנוי בתשלום לשירות הבינה המלאכותית.</span><span lang="en">AI services have age limits: an adult opens the account and stays nearby. The chat never asks for personal details. Long sessions usually need a paid plan for the AI service.</span></p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><span lang="he">מאת אבי סלמון · קוד פתוח (MIT)</span><span lang="en">By Avi Salmon · open source (MIT)</span></span>
+    <span><a href="https://github.com/avisalmon/SingleButtonKitBKM">GitHub</a> · <a href="https://github.com/avisalmon/SingleButtonKitBKM/blob/main/docs/journey.md"><span lang="he">המסע המלא</span><span lang="en">The full journey</span></a> · <a href="https://github.com/avisalmon/SingleButtonKitBKM/blob/main/docs/kit.md"><span lang="he">פרטי הערכה</span><span lang="en">Kit details</span></a></span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var titles = { he: "ערכת הכפתור האחד | Single Button Kit", en: "Single Button Kit | ערכת הכפתור האחד" };
+
+    function setLang(lang, remember) {
+      if (lang !== "en") lang = "he";
+      root.className = lang;
+      root.lang = lang;
+      root.dir = lang === "he" ? "rtl" : "ltr";
+      document.title = titles[lang];
+      document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-set-lang") === lang));
+      });
+      if (remember) {
+        try { localStorage.setItem("kit-lang", lang); } catch (e) {}
+      }
+    }
+
+    var wanted = new URLSearchParams(location.search).get("lang");
+    if (!wanted) {
+      try { wanted = localStorage.getItem("kit-lang"); } catch (e) {}
+    }
+    setLang(wanted || "he", false);
+
+    document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+      b.addEventListener("click", function () { setLang(b.getAttribute("data-set-lang"), true); });
+    });
+
+    document.querySelectorAll(".copy").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var text = btn.parentElement.querySelector("code").innerText;
+        navigator.clipboard.writeText(text).then(function () {
+          btn.textContent = "✓";
+          setTimeout(function () { btn.textContent = "Copy"; }, 1500);
+        });
+      });
+    });
+  })();
+</script>
+</body>
+</html>

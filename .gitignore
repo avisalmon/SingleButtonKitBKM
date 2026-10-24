@@ -1,0 +1,29 @@
+# Python virtual environment: ALWAYS the folder `env` (never commit it)
+env/
+# Environment-variable file (WiFi passwords and the like); never the virtualenv
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# PlatformIO build output
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# The learner's own projects stay on their computer, so pulling updates never conflicts with their work
+my_projects/*
+!my_projects/README.md
+
+# The learner's progress through the journey (personal, resumable)
+progress.json
+
+# Editors and OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+Thumbs.db
+.DS_Store
+~$*
+*.log

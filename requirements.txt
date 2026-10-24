@@ -1,0 +1,4 @@
+# Everything the kit needs on the computer. Installed into the `env` virtualenv by the chat (setup-my-computer skill).
+platformio==6.2.0     # builds and uploads Arduino-style C++ to the ESP32
+esptool==5.4.0        # writes whole flash images (restore Flappy) and reads chip info
+pyserial==3.5         # finds the kit's COM port
