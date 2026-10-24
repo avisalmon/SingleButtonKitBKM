@@ -3,7 +3,7 @@
 ### Build a kit with your hands, then program it with an AI by your side.
 
 <!-- last-updated:start -->
-**Last updated 24 October 2026** · 5 new lessons · [See what's new](docs/lessons_log.md)
+**Last updated 24 October 2026** · 7 new lessons · [See what's new](docs/lessons_log.md)
 <!-- last-updated:end -->
 
 **Start page (Hebrew / English): https://avisalmon.github.io/SingleButtonKitBKM/**
@@ -22,23 +22,21 @@ This repo is what comes next. Open it in VS Code with **Claude Code** or **GitHu
 * teaches as it goes, in Hebrew or English, and resumes where you stopped next time,
 * pulls the newest version of this guide at the start of every session.
 
-## Start here
+## Three stages
 
 1. **Build the kit** and see Flappy run: [video](https://www.youtube.com/watch?v=Jap-4eeCaNw), wiring in [docs/kit.md](docs/kit.md).
-2. **Install** [VS Code](https://code.visualstudio.com), an AI chat in it (Claude Code, or GitHub Copilot in Agent mode)
-   and [Git](https://git-scm.com/downloads).
-3. **Copy this project and open it** (VS Code: Terminal -> New Terminal):
+2. **Learn to program it by hand**, old school, in MicroPython: the
+   [video lessons](https://www.youtube.com/playlist?list=PL0zMMCdiaE56wAuAqmGXPQlCa_2BCWRi6) and
+   [the code](https://github.com/avisalmon/single_button).
+3. **The AI magic** (this repo), no command-line experience needed:
+   1. Install [VS Code](https://code.visualstudio.com), [Git](https://git-scm.com/downloads), and an AI chat in VS Code
+      (Claude Code, or GitHub Copilot in Agent mode).
+   2. In VS Code: **Ctrl+Shift+P** -> **Git: Clone** -> paste `https://github.com/avisalmon/SingleButtonKitBKM.git` ->
+      pick a folder -> **Open**.
+   3. In the chat, type: `Tell me what to do` / `תגיד לי מה לעשות`
 
-   ```powershell
-   mkdir C:\kit
-   cd C:\kit
-   git clone https://github.com/avisalmon/SingleButtonKitBKM.git
-   code SingleButtonKitBKM
-   ```
-
-4. **In the chat, type:** `Tell me what to do` / `תגיד לי מה לעשות`
-
-Every click is in [docs/get_started.md](docs/get_started.md). The whole road is [docs/journey.md](docs/journey.md).
+Every click, and what a terminal is if you want one, is in [docs/get_started.md](docs/get_started.md).
+The whole road is [docs/journey.md](docs/journey.md).
 
 ## What's in the box
 

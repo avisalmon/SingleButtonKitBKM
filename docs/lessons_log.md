@@ -5,6 +5,12 @@ They come from real sessions with real kits; most of them came from something go
 
 ## 2026-10-24
 
+- **Assume nobody has used a command line.** The start page now copies the project with clicks (Git: Clone in VS Code)
+  and explains the terminal from zero for those who want it; the chat says what each command does before it runs.
+  [get_started.md](get_started.md)
+- **Learn by hand before the magic.** The start page's stage 2 is MicroPython with the single_button course; the chat
+  expects a kit running MicroPython, and Thonny holding the port. [journey.md](journey.md)
+
 - **The guide is born, and tested on a real kit.** Doctor, upload, kit_check, listen and Flappy restore all ran on an
   ESP32-D0WD-V3 kit. [journey.md](journey.md)
 - **A listed port can still be dead.** Windows kept the CP210x stopped (Code 10) while the port showed in the list;

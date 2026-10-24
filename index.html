@@ -119,7 +119,36 @@
 
   .video { position: relative; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: #000; }
   .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .wiring { border-radius: 12px; border: 1px solid var(--line); background: #fff; padding: 8px; }
+  .wiring { border-radius: 12px; border: 1px solid var(--line); background: #fff; padding: 12px; width: 100%; max-width: 900px; margin: 0 auto; }
+  .block-title { margin: 28px 0 12px; }
+
+  /* "what is a terminal" explainer */
+  .explain { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin-top: 12px; }
+  .explain h4 { font-size: 17px; margin-bottom: 6px; }
+  .explain p, .explain li { color: var(--muted); font-size: 16px; }
+  .explain ol { padding-inline-start: 22px; margin-top: 6px; }
+  .explain li + li { margin-top: 6px; }
+  .prompt-demo {
+    direction: ltr; text-align: left; background: var(--code-bg); color: var(--code-ink); border-radius: 8px;
+    padding: 10px 14px; font-family: Consolas, "Cascadia Mono", monospace; font-size: 14px; margin: 8px 0; overflow-x: auto;
+  }
+  .prompt-demo .cursor { display: inline-block; width: 8px; height: 15px; background: var(--code-ink); vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .prompt-demo .cursor { animation: none; } }
+  kbd {
+    font-family: Consolas, "Cascadia Mono", monospace; font-size: 14px; border: 1px solid var(--line);
+    border-bottom-width: 2px; border-radius: 5px; padding: 0 6px; background: var(--bg); color: var(--ink);
+    direction: ltr; unicode-bidi: isolate;
+  }
+  details { margin-top: 12px; }
+  summary { cursor: pointer; color: var(--accent); font-weight: 600; min-height: 32px; }
+  .stage-tag {
+    display: inline-block; font-size: 14px; font-weight: 700; color: var(--accent); background: var(--accent-soft);
+    border-radius: 999px; padding: 2px 12px; margin-bottom: 8px;
+  }
+  .lessons { columns: 2; column-gap: 32px; padding-inline-start: 20px; color: var(--muted); }
+  .lessons li { break-inside: avoid; }
+  @media (max-width: 520px) { .lessons { columns: 1; } }
   table { width: 100%; border-collapse: collapse; font-size: 16px; }
   th, td { text-align: start; padding: 8px 10px; border-bottom: 1px solid var(--line); }
   th { color: var(--muted); font-weight: 600; font-size: 14px; }
@@ -184,12 +213,12 @@
     <div>
       <div class="eyebrow"><span lang="he">ESP32 · מסך · כפתור אחד · זמזם · בינה מלאכותית</span><span lang="en">ESP32 · screen · one button · buzzer · AI</span></div>
       <h1><span lang="he">בונים ערכה בידיים, ומתכנתים אותה עם בינה מלאכותית לצידכם.</span><span lang="en">Build a kit with your hands, then program it with an AI by your side.</span></h1>
-      <p class="lead"><span lang="he">מחברים מחשב קטן, מסך, כפתור וזמזם על לוח ניסויים, ומשחק Flappy עולה מיד. משם, צ'אט בתוך VS Code מתקין הכול, בודק את הערכה, ובונה איתכם כל משחק או רעיון שתדמיינו, ומסביר תוך כדי.</span><span lang="en">Wire a tiny computer, a screen, a button and a buzzer on a breadboard, and a Flappy game starts right away. From there, a chat inside VS Code installs everything, checks your kit, and builds any game or idea you imagine with you, explaining as it goes.</span></p>
+      <p class="lead"><span lang="he">שלושה שלבים: <b>בונים</b> את הערכה בידיים ומשחק Flappy עולה מיד. <b>לומדים לתכנת</b> אותה בעצמכם, שורה אחרי שורה, ב-MicroPython. ואז <b>קסם</b>: צ'אט בינה מלאכותית בתוך VS Code בונה איתכם כל משחק או רעיון שתדמיינו, ומסביר תוך כדי.</span><span lang="en">Three stages: <b>build</b> the kit with your hands and a Flappy game starts right away. <b>Learn to program</b> it yourself, line by line, in MicroPython. Then <b>magic</b>: an AI chat inside VS Code builds any game or idea you imagine with you, explaining as it goes.</span></p>
       <div class="cta">
-        <a class="btn primary" href="#start"><span lang="he">מתחילים</span><span lang="en">Get started</span></a>
-        <a class="btn ghost" href="#build"><span lang="he">סרטון ההרכבה</span><span lang="en">Assembly video</span></a>
+        <a class="btn primary" href="#build"><span lang="he">מתחילים</span><span lang="en">Get started</span></a>
+        <a class="btn ghost" href="#ai"><span lang="he">ישר לקסם עם AI</span><span lang="en">Straight to the AI magic</span></a>
       </div>
-      <!-- last-updated:start --><a class="updated" href="https://github.com/avisalmon/SingleButtonKitBKM/blob/main/docs/lessons_log.md"><span lang="he"><b>עודכן לאחרונה 24 באוקטובר 2026</b> · 5 לקחים חדשים · מה חדש &larr;</span><span lang="en"><b>Last updated 24 October 2026</b> · 5 new lessons · See what's new &rarr;</span></a><!-- last-updated:end -->
+      <!-- last-updated:start --><a class="updated" href="https://github.com/avisalmon/SingleButtonKitBKM/blob/main/docs/lessons_log.md"><span lang="he"><b>עודכן לאחרונה 24 באוקטובר 2026</b> · 7 לקחים חדשים · מה חדש &larr;</span><span lang="en"><b>Last updated 24 October 2026</b> · 7 new lessons · See what's new &rarr;</span></a><!-- last-updated:end -->
     </div>
     <div class="hero-img"><img src="assets/kit.png" alt="The assembled kit running Flappy / הערכה המורכבת עם משחק Flappy" width="534" height="358"></div>
   </div>
@@ -210,16 +239,14 @@
 
 <section id="build">
   <div class="wrap">
-    <h2><span lang="he">שלב 1: בונים את הערכה</span><span lang="en">Step 1: build the kit</span></h2>
+    <span class="stage-tag"><span lang="he">שלב 1</span><span lang="en">Stage 1</span></span>
+    <h2><span lang="he">בונים את הערכה</span><span lang="en">Build the kit</span></h2>
     <p class="sub"><span lang="he">עקבו אחרי הסרטון והחיבורים. כשמחברים ל-USB, משחק Flappy עולה. אם הציפור עפה כשלוחצים, הכול מחובר נכון.</span><span lang="en">Follow the video and the wiring. Plug it into USB and Flappy starts. If the bird flies when you press, everything is wired right.</span></p>
-    <div class="grid g2">
-      <div class="video">
-        <iframe src="https://www.youtube-nocookie.com/embed/Jap-4eeCaNw" title="Building the Flappy micro arcade / בניית מיקרו ארקייד פלאפי" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <div>
-        <img class="wiring" src="assets/wiring.png" alt="Wiring diagram: ESP32, OLED, button and buzzer / תרשים חיבורים" width="880" height="660" loading="lazy">
-      </div>
+    <div class="video">
+      <iframe src="https://www.youtube-nocookie.com/embed/Jap-4eeCaNw" title="Building the Flappy micro arcade / בניית מיקרו ארקייד פלאפי" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
+    <h3 class="block-title"><span lang="he">תרשים החיבורים</span><span lang="en">The wiring diagram</span></h3>
+    <img class="wiring" src="assets/wiring.png" alt="Wiring diagram: ESP32, OLED, button and buzzer / תרשים חיבורים" width="880" height="660" loading="lazy">
     <div class="grid g2" style="margin-top:20px">
       <div class="card">
         <h3><span lang="he">החיבורים</span><span lang="en">The wiring</span></h3>
@@ -246,44 +273,116 @@
   </div>
 </section>
 
-<section id="start">
+<section id="learn">
   <div class="wrap">
-    <h2><span lang="he">שלב 2: מכינים את המחשב (פעם אחת, כ-20 דקות)</span><span lang="en">Step 2: get your computer ready (once, about 20 minutes)</span></h2>
-    <p class="sub"><span lang="he">רק את הדברים האלה עושים לבד. מכאן והלאה הצ'אט עושה את העבודה ומסביר לכם מה ללחוץ. Windows מומלץ.</span><span lang="en">These are the only things you do yourself. From then on the chat does the work and tells you what to click. Windows recommended.</span></p>
+    <span class="stage-tag"><span lang="he">שלב 2</span><span lang="en">Stage 2</span></span>
+    <h2><span lang="he">לומדים לתכנת עם הראש והידיים</span><span lang="en">Learn to program it with your own head and hands</span></h2>
+    <p class="sub"><span lang="he">לפני הקסם, כדאי להבין מה קורה בפנים. בשלב הזה מתכנתים את הערכה בעצמכם, כמו פעם: כל שורה אתם כותבים, וכל שגיאה אתם מתקנים. משתמשים ב-MicroPython, שפה ידידותית למתחילים, ובתוכנה פשוטה בשם Thonny.</span><span lang="en">Before the magic, it pays to understand what happens inside. In this stage you program the kit yourself, the old-school way: you write every line and fix every mistake. You use MicroPython, a beginner-friendly language, and a simple program called Thonny.</span></p>
+
+    <div class="grid g2">
+      <a class="card" href="https://www.youtube.com/playlist?list=PL0zMMCdiaE56wAuAqmGXPQlCa_2BCWRi6" target="_blank" rel="noopener" style="text-decoration:none">
+        <div class="icon" aria-hidden="true">▶️</div>
+        <h3><span lang="he">1. רשימת השיעורים ביוטיוב</span><span lang="en">1. The video lessons on YouTube</span></h3>
+        <p><span lang="he">15 שיעורי וידאו, מההתקנה ועד משחקים שלמים. צופים בשיעור, ואז עושים אותו בעצמכם.</span><span lang="en">15 video lessons (in Hebrew), from installing to complete games. Watch a lesson, then do it yourself.</span></p>
+      </a>
+      <a class="card" href="https://github.com/avisalmon/single_button" target="_blank" rel="noopener" style="text-decoration:none">
+        <div class="icon" aria-hidden="true">📘</div>
+        <h3><span lang="he">2. הקוד וההוראות ב-GitHub</span><span lang="en">2. The code and instructions on GitHub</span></h3>
+        <p><span lang="he">איך מתקינים Thonny ו-MicroPython על הערכה, וקובץ קוד לכל שיעור, עם תרגילים בסוף.</span><span lang="en">How to install Thonny and MicroPython on the kit, and a code file for every lesson, with exercises at the end.</span></p>
+      </a>
+    </div>
+
+    <h3 class="block-title"><span lang="he">מה לומדים בדרך</span><span lang="en">What you learn on the way</span></h3>
+    <ul class="lessons">
+      <li><span lang="he">ציור קווים וצורות על המסך</span><span lang="en">Drawing lines and shapes on the screen</span></li>
+      <li><span lang="he">תנועה ואנימציה</span><span lang="en">Movement and animation</span></li>
+      <li><span lang="he">טקסט וגופנים</span><span lang="en">Text and fonts</span></li>
+      <li><span lang="he">קריאת הכפתור</span><span lang="en">Reading the button</span></li>
+      <li><span lang="he">דמויות (ספרייטים) ומחלקות</span><span lang="en">Sprites and classes</span></li>
+      <li><span lang="he">פונג, בארבעה חלקים</span><span lang="en">Pong, in four parts</span></li>
+      <li><span lang="he">נחש וסיימון, עם צלילים</span><span lang="en">Snake and Simon, with sound</span></li>
+      <li><span lang="he">Space Invaders עם אנימציה</span><span lang="en">Space Invaders with animation</span></li>
+      <li><span lang="he">WiFi ושעון מהאינטרנט</span><span lang="en">WiFi and an internet clock</span></li>
+    </ul>
+
+    <div class="note" style="margin-top:20px">
+      <p><b><span lang="he">טוב לדעת:</span><span lang="en">Good to know:</span></b>
+      <span lang="he">התקנת MicroPython מחליפה את משחק Flappy שעל הערכה. זה בסדר: בשלב 3 מספיק לכתוב לצ'אט "תחזיר את פלאפי" והוא חוזר. ממהרים לקסם? אפשר לדלג לשלב 3 ולחזור לכאן מתי שרוצים.</span><span lang="en">Installing MicroPython replaces the Flappy game on the kit. That's fine: in stage 3, just tell the chat "Restore Flappy" and it comes back. In a hurry for the magic? Skip to stage 3 and come back here any time.</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="ai">
+  <div class="wrap">
+    <span class="stage-tag"><span lang="he">שלב 3</span><span lang="en">Stage 3</span></span>
+    <h2><span lang="he">הקסם: מתכנתים עם בינה מלאכותית לצידכם</span><span lang="en">The magic: program with an AI by your side</span></h2>
+    <p class="sub"><span lang="he">עכשיו צ'אט בינה מלאכותית בונה איתכם כל רעיון, ב-C++ כמו של Arduino. ההכנה נעשית פעם אחת, בערך 30 דקות, ובלי שום ידע מוקדם. אחר כך הצ'אט עושה את העבודה ומסביר לכם מה ללחוץ. מומלץ מחשב Windows.</span><span lang="en">Now an AI chat builds any idea with you, in Arduino-style C++. Setup is done once, about 30 minutes, with no prior knowledge. After that the chat does the work and tells you what to click. A Windows computer is recommended.</span></p>
 
     <div class="step"><div class="num">1</div><div>
       <h3><span lang="he">התקינו את VS Code</span><span lang="en">Install VS Code</span></h3>
-      <p><span lang="he">עורך הקוד. מורידים מ-</span><span lang="en">The code editor. Download from </span><a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a><span lang="he"> ומתקינים עם ברירות המחדל.</span><span lang="en"> and install with the defaults.</span></p>
+      <p><span lang="he">VS Code היא תוכנה לכתיבת קוד, ובתוכה יגור הצ'אט. מורידים מ-</span><span lang="en">VS Code is a program for writing code, and the chat will live inside it. Download from </span><a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a><span lang="he">, מריצים את קובץ ההתקנה ולוחצים Next עד הסוף.</span><span lang="en">, run the installer and click Next until it finishes.</span></p>
     </div></div>
 
     <div class="step"><div class="num">2</div><div>
-      <h3><span lang="he">הוסיפו צ'אט בינה מלאכותית (אחד מהשניים)</span><span lang="en">Add an AI chat (one of the two)</span></h3>
-      <ul>
-        <li><span lang="he"><b>Claude Code</b>: ב-VS Code, Extensions (אייקון ארבעת הריבועים) ← מחפשים "Claude Code" ← Install ← נכנסים עם חשבון Claude.</span><span lang="en"><b>Claude Code</b>: in VS Code, Extensions (the four-squares icon) → search "Claude Code" → Install → sign in with a Claude account.</span></li>
-        <li><span lang="he"><b>GitHub Copilot</b>: צריך חשבון <a href="https://github.com/signup" target="_blank" rel="noopener">GitHub</a> חינמי. נכנסים ל-GitHub ב-VS Code, פותחים את הצ'אט ובוחרים מצב <b>Agent</b>.</span><span lang="en"><b>GitHub Copilot</b>: needs a free <a href="https://github.com/signup" target="_blank" rel="noopener">GitHub</a> account. Sign in to GitHub in VS Code, open the chat and choose <b>Agent</b> mode.</span></li>
-      </ul>
-      <p class="check"><span lang="he">עובד כשכותבים hello והצ'אט עונה.</span><span lang="en">It works when you type hello and the chat answers.</span></p>
+      <h3><span lang="he">התקינו את Git</span><span lang="en">Install Git</span></h3>
+      <p><span lang="he">Git הוא כלי שמעתיק פרויקטים מהאינטרנט למחשב, ומעדכן אותם. מורידים מ-</span><span lang="en">Git is a tool that copies projects from the internet to your computer, and keeps them updated. Download from </span><a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git-scm.com</a><span lang="he">, מריצים ולוחצים Next בכל המסכים (יש הרבה, ברירות המחדל טובות). אחר כך סוגרים את VS Code ופותחים אותו מחדש.</span><span lang="en">, run it and click Next on every screen (there are many; the defaults are fine). Then close VS Code and open it again.</span></p>
     </div></div>
 
     <div class="step"><div class="num">3</div><div>
-      <h3><span lang="he">התקינו את Git</span><span lang="en">Install Git</span></h3>
-      <p><span lang="he">הכלי שמעתיק את הפרויקט למחשב. מורידים מ-</span><span lang="en">The tool that copies the project to your computer. Download from </span><a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git-scm.com</a><span lang="he">, מתקינים עם ברירות המחדל, וסוגרים ופותחים מחדש את VS Code.</span><span lang="en">, install with the defaults, then close and reopen VS Code.</span></p>
+      <h3><span lang="he">הוסיפו צ'אט בינה מלאכותית (אחד מהשניים)</span><span lang="en">Add an AI chat (one of the two)</span></h3>
+      <ul>
+        <li><span lang="he"><b>Claude Code</b>: ב-VS Code לוחצים על אייקון ארבעת הריבועים בצד (Extensions), מחפשים "Claude Code", לוחצים Install, ונכנסים עם חשבון Claude.</span><span lang="en"><b>Claude Code</b>: in VS Code click the four-squares icon on the side (Extensions), search "Claude Code", click Install, and sign in with a Claude account.</span></li>
+        <li><span lang="he"><b>GitHub Copilot</b>: צריך חשבון <a href="https://github.com/signup" target="_blank" rel="noopener">GitHub</a> חינמי. ב-VS Code לוחצים על אייקון האדם למטה בצד, נכנסים ל-GitHub, פותחים את הצ'אט ובוחרים בו מצב <b>Agent</b>.</span><span lang="en"><b>GitHub Copilot</b>: needs a free <a href="https://github.com/signup" target="_blank" rel="noopener">GitHub</a> account. In VS Code click the person icon at the bottom of the side bar, sign in to GitHub, open the chat and set it to <b>Agent</b> mode.</span></li>
+      </ul>
+      <p class="check"><span lang="he">עובד כשכותבים בצ'אט hello והוא עונה.</span><span lang="en">It works when you type hello in the chat and it answers.</span></p>
     </div></div>
 
     <div class="step"><div class="num">4</div><div>
-      <h3><span lang="he">העתיקו את הפרויקט ופתחו אותו</span><span lang="en">Copy the project and open it</span></h3>
-      <p><span lang="he">ב-VS Code: <b>Terminal ← New Terminal</b>. מקלידים כל שורה ולוחצים Enter:</span><span lang="en">In VS Code: <b>Terminal → New Terminal</b>. Type each line and press Enter:</span></p>
+      <h3><span lang="he">העתיקו את הפרויקט למחשב, בלחיצות בלבד</span><span lang="en">Copy the project to your computer, with clicks only</span></h3>
+      <ol style="padding-inline-start:20px; color:var(--muted)">
+        <li><span lang="he">ב-VS Code לוחצים <bdi dir="ltr"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></bdi>. נפתחת שורת חיפוש למעלה.</span><span lang="en">In VS Code press <bdi dir="ltr"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></bdi>. A search box opens at the top.</span></li>
+        <li><span lang="he">כותבים <b>Git: Clone</b> ולוחצים Enter.</span><span lang="en">Type <b>Git: Clone</b> and press Enter.</span></li>
+        <li><span lang="he">מדביקים את הכתובת הזו ולוחצים Enter:</span><span lang="en">Paste this address and press Enter:</span>
+<pre><button class="copy" type="button">Copy</button><code>https://github.com/avisalmon/SingleButtonKitBKM.git</code></pre></li>
+        <li><span lang="he">בוחרים תיקייה לשמור בה (למשל Documents) ולוחצים <b>Select as Repository Destination</b>.</span><span lang="en">Choose a folder to keep it in (Documents is fine) and click <b>Select as Repository Destination</b>.</span></li>
+        <li><span lang="he">כשמופיעה ההודעה למטה, לוחצים <b>Open</b>, ואז <b>Yes, I trust the authors</b>.</span><span lang="en">When the message appears at the bottom, click <b>Open</b>, then <b>Yes, I trust the authors</b>.</span></li>
+      </ol>
+      <p class="check"><span lang="he">בצד שמאל רואים את קבצי הפרויקט, למשל README.md ו-CLAUDE.md.</span><span lang="en">The project's files show on the left, for example README.md and CLAUDE.md.</span></p>
+
+      <details>
+        <summary><span lang="he">או: אותו דבר עם הטרמינל (שורת הפקודה)</span><span lang="en">Or: the same with the terminal (the command line)</span></summary>
+        <div class="explain">
+          <h4><span lang="he">מה זה טרמינל?</span><span lang="en">What is a terminal?</span></h4>
+          <p><span lang="he">טרמינל (נקרא גם "שורת פקודה") הוא חלון שבו נותנים למחשב הוראות בכתיבה, במקום ללחוץ עם העכבר. כותבים שורה, לוחצים Enter, והמחשב מבצע. לא צריך לפחד ממנו: הוא רק עושה מה שכותבים לו.</span><span lang="en">A terminal (also called the "command line") is a window where you give the computer instructions by typing, instead of clicking with the mouse. You type a line, press Enter, and the computer does it. Nothing to fear: it only does what you type.</span></p>
+          <h4 style="margin-top:12px"><span lang="he">איך פותחים אותו ב-VS Code</span><span lang="en">How to open it in VS Code</span></h4>
+          <p><span lang="he">בתפריט למעלה: <b>Terminal</b> ואז <b>New Terminal</b>. (או המקשים <bdi dir="ltr"><kbd>Ctrl</kbd>+<kbd>`</kbd></bdi>, המקש שמתחת ל-Esc.) נפתח חלון בתחתית המסך, עם שורה כזו:</span><span lang="en">In the top menu: <b>Terminal</b>, then <b>New Terminal</b>. (Or the keys <bdi dir="ltr"><kbd>Ctrl</kbd>+<kbd>`</kbd></bdi>, the key under Esc.) A panel opens at the bottom of the screen, with a line like this:</span></p>
+          <div class="prompt-demo">PS C:\Users\you&gt; <span class="cursor"></span></div>
+          <p><span lang="he">השורה הזו נקראת "prompt": המחשב מחכה לפקודה שלכם.</span><span lang="en">That line is called the "prompt": the computer is waiting for your instruction.</span></p>
+          <h4 style="margin-top:12px"><span lang="he">איך עובדים איתו</span><span lang="en">How to use it</span></h4>
+          <ol>
+            <li><span lang="he">לוחצים בתוך חלון הטרמינל כדי שיקבל את ההקלדה.</span><span lang="en">Click inside the terminal panel so it receives your typing.</span></li>
+            <li><span lang="he">מעתיקים שורה אחת (כפתור Copy) ומדביקים בטרמינל עם <bdi dir="ltr"><kbd>Ctrl</kbd>+<kbd>V</kbd></bdi> או קליק ימני.</span><span lang="en">Copy one line (the Copy button) and paste it into the terminal with <bdi dir="ltr"><kbd>Ctrl</kbd>+<kbd>V</kbd></bdi> or a right-click.</span></li>
+            <li><span lang="he">לוחצים Enter, ומחכים עד שמופיעה שוב שורת ה-prompt. זה הסימן שהפקודה הסתיימה.</span><span lang="en">Press Enter, and wait until the prompt line appears again. That's the sign the instruction finished.</span></li>
+            <li><span lang="he">טקסט אדום = שגיאה. לא נורא: מעתיקים אותו ושולחים לצ'אט, והוא יסביר.</span><span lang="en">Red text = an error. No big deal: copy it into the chat and it will explain.</span></li>
+          </ol>
+          <p style="margin-top:10px"><span lang="he">ארבע השורות שמעתיקות ופותחות את הפרויקט, אחת אחרי השנייה:</span><span lang="en">The four lines that copy and open the project, one after the other:</span></p>
 <pre><button class="copy" type="button">Copy</button><code>mkdir C:\kit
 cd C:\kit
 git clone https://github.com/avisalmon/SingleButtonKitBKM.git
 code SingleButtonKitBKM</code></pre>
-      <p class="check"><span lang="he">נפתח חלון חדש של VS Code. לוחצים "Yes, I trust the authors".</span><span lang="en">A new VS Code window opens. Click "Yes, I trust the authors".</span></p>
+          <p><span lang="he">מה כל שורה עושה: יוצרת תיקייה בשם kit, נכנסת אליה, מעתיקה לתוכה את הפרויקט, ופותחת אותו ב-VS Code.</span><span lang="en">What each line does: makes a folder called kit, goes into it, copies the project into it, and opens it in VS Code.</span></p>
+        </div>
+      </details>
     </div></div>
 
     <div class="step"><div class="num">5</div><div>
-      <h3><span lang="he">פתחו את הצ'אט בחלון החדש וכתבו:</span><span lang="en">Open the chat in the new window and type:</span></h3>
+      <h3><span lang="he">פתחו את הצ'אט וכתבו:</span><span lang="en">Open the chat and type:</span></h3>
       <div class="say"><span lang="he">תגיד לי מה לעשות</span><span lang="en">Tell me what to do</span></div>
       <p style="margin-top:10px"><span lang="he">זהו. מכאן הצ'אט מוביל: מתקין Python והכלים, מוצא את הערכה, בודק את המסך, הכפתור והזמזם, ובונה איתכם את התוכנית הראשונה. חוזרים מחר? כותבים את אותו משפט, והוא ממשיך מאיפה שעצרתם.</span><span lang="en">That's it. From here the chat leads: it installs Python and the tools, finds the kit, checks the screen, button and buzzer, and builds your first program with you. Back tomorrow? Type the same sentence and it continues where you stopped.</span></p>
+      <div class="explain">
+        <h4><span lang="he">מעכשיו לא צריך להקליד פקודות</span><span lang="en">From now on you don't type commands</span></h4>
+        <p><span lang="he">הצ'אט מריץ את הפקודות בעצמו, בטרמינל של VS Code. לפני כל פקודה הוא מראה מה הוא רוצה להריץ ושואל אם מותר (Allow / Run). קוראים, ולוחצים לאשר. אם משהו לא ברור, שואלים אותו: "מה הפקודה הזו עושה?"</span><span lang="en">The chat runs the commands itself, in VS Code's terminal. Before each one it shows what it wants to run and asks permission (Allow / Run). Read it, and click to approve. If something is unclear, ask it: "What does this command do?"</span></p>
+      </div>
     </div></div>
   </div>
 </section>
@@ -321,25 +420,6 @@ code SingleButtonKitBKM</code></pre>
       <span class="chip"><span lang="he">🕐 שעון מהאינטרנט</span><span lang="en">🕐 Internet clock</span></span>
       <span class="chip"><span lang="he">📡 קוד מורס</span><span lang="en">📡 Morse code</span></span>
       <span class="chip"><span lang="he">🌦️ מזג אוויר</span><span lang="en">🌦️ Weather</span></span>
-    </div>
-  </div>
-</section>
-
-<section id="learn">
-  <div class="wrap">
-    <h2><span lang="he">רוצים לתכנת הכול בעצמכם?</span><span lang="en">Want to program it all yourself?</span></h2>
-    <p class="sub"><span lang="he">לצד הבינה המלאכותית יש קורס מלא לתכנות הערכה הזו ביד, ב-MicroPython: מציור קו ראשון ועד פונג, נחש ו-Space Invaders.</span><span lang="en">Alongside the AI there is a full course for programming this kit by hand, in MicroPython: from a first line on the screen to Pong, Snake and Space Invaders.</span></p>
-    <div class="grid g2">
-      <a class="card" href="https://www.youtube.com/playlist?list=PL0zMMCdiaE56wAuAqmGXPQlCa_2BCWRi6" target="_blank" rel="noopener" style="text-decoration:none">
-        <div class="icon" aria-hidden="true">▶️</div>
-        <h3><span lang="he">רשימת הסרטונים ביוטיוב</span><span lang="en">The YouTube playlist</span></h3>
-        <p><span lang="he">15 שיעורי וידאו, צעד אחר צעד.</span><span lang="en">15 video lessons, step by step (Hebrew).</span></p>
-      </a>
-      <a class="card" href="https://github.com/avisalmon/single_button" target="_blank" rel="noopener" style="text-decoration:none">
-        <div class="icon" aria-hidden="true">📘</div>
-        <h3><span lang="he">הקוד והשיעורים ב-GitHub</span><span lang="en">The code and lessons on GitHub</span></h3>
-        <p><span lang="he">כל קבצי השיעורים, הספריות וההוראות.</span><span lang="en">Every lesson file, the libraries and the instructions.</span></p>
-      </a>
     </div>
   </div>
 </section>

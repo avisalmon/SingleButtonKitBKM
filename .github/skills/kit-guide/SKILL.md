@@ -38,6 +38,10 @@ The phases are in [docs/journey.md](../../../docs/journey.md). Re-read it at the
    No -> ask what they see (screen dark? no sound? nothing at all?) and use `connect-the-kit`. If the screen shows
    nothing at all after checking the wires, the kit may have been reprogrammed: that is fine, go on to phase 2
    and test it with kit_check in phase 3.
+   **Came from stage 2 (MicroPython by hand)?** The start page's stage 2 has learners install MicroPython with Thonny,
+   so the kit shows nothing (or their last MicroPython program) instead of Flappy. That is expected: ask what they made,
+   celebrate it, and connect it to what comes next ("the same screen and button, now in C++ with me helping").
+   **Close Thonny** before phase 3: it holds the kit's USB port and every upload fails as "busy".
 2. **The computer is ready.** `setup-my-computer`: Python, `env`, the tools in requirements.txt, the USB driver.
    Do it yourself; the learner only clicks "Yes" on installers. Finish with `scripts/kit_doctor.py` -> no FAIL.
 3. **The kit talks to the computer.** `connect-the-kit`: kit found on a COM port, `--chip` answers. Tell them that
@@ -55,6 +59,8 @@ next) so the next session resumes. Keep it short and in the learner's language.
 ## How to behave
 
 * **Do it yourself.** Run the commands, write the code, read the output. Never hand the learner a list of commands.
+  Assume they have never used a terminal: when your tool asks them to approve a command, say in one plain sentence
+  what it will do before it runs ("this installs Python; Windows will ask you to click Yes").
 * **Human steps**: one at a time, 1-4 short lines, exact words ("the small button to the right of the USB socket,
   marked BOOT"), say what to tell you back, then wait.
 * **Prove it on the kit.** A passing build is not done: ask what they see on the screen and hear from the buzzer.

@@ -66,6 +66,25 @@ def test_the_page_carries_the_journey():
         assert must in HTML, must
 
 
+def test_the_three_stages_come_in_order():
+    """Build, then learn by hand (MicroPython), then the AI. The AI must not come before learning by hand."""
+    build, learn, ai = (HTML.index(f'<section id="{name}">') for name in ("build", "learn", "ai"))
+    assert build < learn < ai
+    learn_section = HTML[learn:ai]
+    assert "github.com/avisalmon/single_button" in learn_section and "PL0zMMCdiaE56wAuAqmGXPQlCa_2BCWRi6" in learn_section
+
+
+def test_the_terminal_is_explained_before_it_is_used():
+    """Most learners have never seen a command line: the page clones with clicks first, and explains the terminal
+    (what it is, how to open it, how to paste, how to know it finished) before any command."""
+    ai = HTML[HTML.index('<section id="ai">'):]
+    assert "Git: Clone" in ai
+    explained = ai.index("What is a terminal?")
+    assert explained < ai.index("git clone https://")
+    for must in ("New Terminal", "prompt", "Ctrl</kbd>+<kbd>V", "Red text"):
+        assert must in ai, must
+
+
 def test_local_images_exist():
     import re
 

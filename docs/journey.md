@@ -1,23 +1,38 @@
 # The journey: from a built kit to your own programs
 
-Who does what in each phase. The chat (the `kit-guide` skill) leads you through it and records your progress in
-`my_projects/PROGRESS.md`, so you can stop any time and say "continue" tomorrow.
+The start page has three stages: **1. build** the kit, **2. learn to program it by hand** (MicroPython), **3. the AI magic**.
+This file is stage 3 in detail, plus how it connects to the first two. Once you are in stage 3, the chat (the
+`kit-guide` skill) leads you and records your progress in `my_projects/PROGRESS.md`, so you can stop any time and
+say "continue" tomorrow.
 
-## Phase 0 - Get to a working chat (you, once per computer)
-
-The start page (index.html) and [get_started.md](get_started.md):
-- [ ] VS Code installed
-- [ ] Git installed
-- [ ] An AI chat in VS Code: Claude Code or GitHub Copilot (Agent mode), signed in, answers "hello"
-- [ ] This repo cloned and opened in VS Code
-- [ ] Typed "תגיד לי מה לעשות" / "Tell me what to do"
-
-## Phase 1 - The kit works on its own (you, with the video)
+## Stage 1 - The kit works on its own (you, with the video)
 
 - [ ] Kit assembled following the [assembly video](https://www.youtube.com/watch?v=Jap-4eeCaNw) and [kit.md](kit.md)
 - [ ] Plugged into USB: Flappy shows; the button makes the bird fly; you hear it
 
-If not, tell the chat what you see; it checks the wiring with you (`connect-the-kit`).
+## Stage 2 - Learn to program it by hand (you, recommended before the AI)
+
+- [ ] The video lessons: https://www.youtube.com/playlist?list=PL0zMMCdiaE56wAuAqmGXPQlCa_2BCWRi6
+- [ ] The code and instructions: https://github.com/avisalmon/single_button (Thonny + MicroPython)
+- [ ] You wrote and changed programs yourself: lines, animation, the button, a game
+
+Installing MicroPython replaces Flappy; the chat can bring it back in stage 3. Skipping stage 2 is allowed.
+
+## Stage 3, phase 0 - Get to a working chat (you, once per computer)
+
+The start page and [get_started.md](get_started.md). No terminal experience needed:
+- [ ] VS Code installed
+- [ ] Git installed
+- [ ] An AI chat in VS Code: Claude Code or GitHub Copilot (Agent mode), signed in, answers "hello"
+- [ ] This repo copied with **Git: Clone** (clicks only) and opened in VS Code
+- [ ] Typed "תגיד לי מה לעשות" / "Tell me what to do"
+
+## Phase 1 - The chat checks where you are
+
+- [ ] Flappy runs, or (after stage 2) your MicroPython program does: the wiring is right
+- [ ] Thonny is closed (it holds the kit's USB port)
+
+If something doesn't work, tell the chat what you see; it checks the wiring with you (`connect-the-kit`).
 
 ## Phase 2 - The computer is ready (the chat)
 
